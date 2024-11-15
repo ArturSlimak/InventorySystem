@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="InventorySystem.Views.ProductsOverviewPage"
+             xmlns:viewmodel="clr-namespace:InventorySystem.ViewModels"
+             xmlns:data="clr-namespace:InventorySystem.DTOs"
+             x:DataType="viewmodel:ProductsOverviewViewModel"
+             >
+
+    <Grid RowDefinitions="Auto,*" ColumnDefinitions="*">
+        <!-- Product List -->
+        <RefreshView Grid.Row="1" Grid.Column="0" 
+                     IsRefreshing="{Binding IsRefreshing}" 
+                     Command="{Binding LoadDataCommand}">
+            <CollectionView Margin="20"
+                            ItemsSource="{Binding Products}" 
+                            SelectionMode="None">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="1" />
+                </CollectionView.ItemsLayout>
+
+                <!-- Template for Each Product -->
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="data:ProductDTO+Index">
+                        <Grid Padding="10" ColumnDefinitions="2*,1*,1*" RowDefinitions="Auto">
+                            <!-- Product Name -->
+                            <Label Grid.Column="0" Text="{Binding Name}" FontSize="Medium" />
+                            <!-- Product Price -->
+                            <Label Grid.Column="1" Text="{Binding Price, StringFormat='${0}'}" HorizontalOptions="End" />
+                            <!-- Product Description -->
+                            <Label Grid.Column="2" Text="{Binding Description}" HorizontalOptions="End" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+
+</ContentPage>
